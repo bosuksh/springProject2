@@ -32,7 +32,7 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(id);
         List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
         restaurant.setMenuItems(menuItems);
-        restaurant.addMenuItem(new MenuItem("Kimchi"));
+        //restaurant.addMenuItem(new MenuItem("Kimchi"));
         return restaurant;
     }
 }

@@ -1,19 +1,21 @@
 package kr.co.springExample2.eatgo.interfaces;
 
 import kr.co.springExample2.eatgo.application.RestaurantService;
-import kr.co.springExample2.eatgo.domain.MenuItemRepository;
-import kr.co.springExample2.eatgo.domain.MenuItemRepositoryImpl;
-import kr.co.springExample2.eatgo.domain.RestaurantRepository;
-import kr.co.springExample2.eatgo.domain.RestaurantRepositoryImpl;
+import kr.co.springExample2.eatgo.domain.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,38 +27,42 @@ public class RestaurantControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @SpyBean(RestaurantRepositoryImpl.class)
-    private RestaurantRepository restaurantRepository;
-
-    @SpyBean(MenuItemRepositoryImpl.class)
-    private MenuItemRepository menuItemRepository;
-
-    @SpyBean(RestaurantService.class)
+    @MockBean
     private RestaurantService restaurantService;
 
     @Test
     public void list() throws Exception {
+        List<Restaurant> restaurants = new ArrayList<>();
+        restaurants.add(new Restaurant(1004L,"JOKER House","Seoul"));
+        given(restaurantService.getRestaurants()).willReturn(restaurants);
+
         mvc.perform(get("/restaurants"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(
                         containsString("\"id\":1004")
                 ))
                 .andExpect(content().string(
-                        containsString("\"name\":\"Bob zip\"")
+                        containsString("\"name\":\"JOKER House\"")
                 ));
 
     }
 
     @Test
     public void detail() throws Exception {
+
+        Restaurant restaurant1 = new Restaurant(1004L,"JOKER House","Seoul");
+        Restaurant restaurant2 = new Restaurant(2020L,"Cyber Food","Seoul");
+        restaurant1.addMenuItem(new MenuItem("Kimchi"));
+        given(restaurantService.getRestaurantById(1004L)).willReturn(restaurant1);
+        given(restaurantService.getRestaurantById(2020L)).willReturn(restaurant2);
+
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(
                         containsString("\"id\":1004")
                 ))
                 .andExpect(content().string(
-                        containsString("\"name\":\"Bob zip\"")
-                ))
+                        containsString("\"name\":\"JOKER House\"") ))
                 .andExpect(content().string(
                         containsString("Kimchi")
                 ));
