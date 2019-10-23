@@ -1,8 +1,20 @@
 package kr.co.springExample2.eatgo.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class MenuItem {
 
-    private final String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long restaurantId;
+
+    private String name;
 
     public MenuItem(String name) {
         this.name = name;
