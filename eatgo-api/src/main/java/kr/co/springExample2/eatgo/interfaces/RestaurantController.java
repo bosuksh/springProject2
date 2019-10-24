@@ -42,4 +42,12 @@ public class RestaurantController {
         return restaurant;
     }
 
+    @PutMapping("/restaurants/{id}")
+    public String update(@PathVariable Long id, @RequestBody Restaurant request) {
+        String name = request.getName();
+        String address = request.getAddress();
+        restaurantService.updateRestaurant(id, name, address);
+        return "{}";
+    }
+
 }

@@ -36,6 +36,10 @@ public class Restaurant {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getInformation() {
         return name +" in " + address;
     }
@@ -44,18 +48,21 @@ public class Restaurant {
         return address;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public List<MenuItem> getMenuItems() {
         return menuItems;
     }
-
     public void addMenuItem(MenuItem menuItem) {
         menuItems.add(menuItem);
     }
@@ -63,6 +70,7 @@ public class Restaurant {
     public void setMenuItems(List<MenuItem> menuItems) {
         for(MenuItem menuItem: menuItems) {
             addMenuItem(menuItem);
+
         }
     }
 }
