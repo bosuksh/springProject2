@@ -1,0 +1,11 @@
+[
+  {
+    "id" : 1,
+    "name": "Steak"
+  },
+  {
+    "id": 2,
+    "destroy" : true
+  }
+
+]

@@ -1,5 +1,6 @@
 package kr.co.springExample2.eatgo.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,41 +28,12 @@ public class Restaurant {
     private String address;
 
     @Transient
-    private List<MenuItem> menuItems = new ArrayList<MenuItem>();
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<MenuItem> menuItems;
 
-    public Restaurant(String name, String address) {
-        this.name = name;
-        this.address = address;
-    }
-
-    public Restaurant(Long id, String name, String address) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getInformation() {
         return name +" in " + address;
     }
 
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<MenuItem> getMenuItems() {
-        return menuItems;
-    }
-
-    public void setMenuItems(List<MenuItem> menuItems) {
-        this.menuItems = new ArrayList<>(menuItems);
-    }
 }
