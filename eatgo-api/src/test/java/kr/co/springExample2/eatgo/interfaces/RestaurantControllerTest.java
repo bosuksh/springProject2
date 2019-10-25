@@ -56,7 +56,7 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void detail() throws Exception {
+    public void detailWithExisted() throws Exception {
 
         Restaurant restaurant1 = Restaurant.builder()
                 .id(1004L)
@@ -95,7 +95,15 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void create() throws Exception {
+    public void detailWithNotExisted() throws Exception {
+        given(restaurantService.getRestaurantById(404L)).willThrow(new RestaurantNotFoundException(404L));
+        mvc.perform(get("/restaurants/404"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("{}"));
+    }
+
+    @Test
+    public void createWithValidData() throws Exception {
         Restaurant restaurant = Restaurant.builder()
                 .id(1234L)
                 .name("BeRyong")
@@ -113,13 +121,44 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void update() throws Exception {
+    public void createWithInvalidData() throws Exception {
+
+        mvc.perform(post("/restaurants")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\": \"\", \"address\":\"\"}"))
+                .andExpect(status().isBadRequest());
+               // .andExpect(content().string(""));
+
+    }
+
+    @Test
+    public void updateWithValidData() throws Exception {
 
         mvc.perform(put("/restaurants/1004")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{\"name\" : \"JOKER\", \"address\": \"Busan\"}"))
                 .andExpect(status().isOk());
         verify(restaurantService).updateRestaurant(1004L,"JOKER", "Busan");
+    }
+
+    @Test
+    public void updateWithInvalidData() throws Exception {
+
+        mvc.perform(put("/restaurants/1004")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\" : \"\", \"address\": \"\"}"))
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    public void updateWithoutName() throws Exception {
+
+        mvc.perform(put("/restaurants/1004")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\" : \"\", \"address\": \"Seoul\"}"))
+                .andExpect(status().isBadRequest());
+
     }
 
 }
