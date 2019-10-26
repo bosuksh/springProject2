@@ -63,15 +63,13 @@ public class RestaurantControllerTest {
                 .name("JOKER House")
                 .address("Seoul")
                 .build();
-        Restaurant restaurant2 = Restaurant.builder()
-                .id(2020L)
-                .name("Cyber Food")
-                .address("Seoul")
-                .build();
+
         MenuItem menuItem = MenuItem.builder().name("Kimchi").build();
+
+        Review review = Review.builder().name("JOKER").score(5).description("Great!").build();
         restaurant1.setMenuItems(Arrays.asList(menuItem));
+        restaurant1.setReviews(Arrays.asList(review));
         given(restaurantService.getRestaurantById(1004L)).willReturn(restaurant1);
-        given(restaurantService.getRestaurantById(2020L)).willReturn(restaurant2);
 
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
@@ -82,16 +80,9 @@ public class RestaurantControllerTest {
                         containsString("\"name\":\"JOKER House\"") ))
                 .andExpect(content().string(
                         containsString("Kimchi")
-                ));
-
-        mvc.perform(get("/restaurants/2020"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(
-                        containsString("\"id\":2020")
                 ))
-                .andExpect(content().string(
-                        containsString("\"name\":\"Cyber Food\"")
-                ));
+                .andExpect(content().string(containsString("Great!")));
+
     }
 
     @Test
