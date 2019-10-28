@@ -6,6 +6,8 @@ import kr.co.springExample2.eatgo.domain.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,4 +37,9 @@ public class MenuItemService {
         menuItemRepository.save(menuItem);
     }
 
+    public List<MenuItem> getMenuItems(Long restaurantId) {
+        //TODO:
+        return menuItemRepository.findAllByRestaurantId(restaurantId);
+
+    }
 }

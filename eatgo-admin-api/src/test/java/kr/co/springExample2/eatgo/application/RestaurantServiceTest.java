@@ -25,10 +25,7 @@ public class RestaurantServiceTest {
 
     @Mock
     private RestaurantRepository restaurantRepository;
-    @Mock
-    private MenuItemRepository menuItemRepository;
-    @Mock
-    private ReviewRepository reviewRepository;
+
 
     private void MockRestaurantRepository() {
         List<Restaurant> restaurants = new ArrayList<>();
@@ -43,18 +40,6 @@ public class RestaurantServiceTest {
 
     }
 
-    private void mockMenuItemRepository() {
-        List<MenuItem> menuItems = new ArrayList<>();
-        menuItems.add(MenuItem.builder().name("Kimchi").build());
-        given(menuItemRepository.findAllByRestaurantId(1004L)).willReturn(menuItems);
-    }
-
-    private void mockReviewRepository() {
-        List<Review> reviews = new ArrayList<>();
-        reviews.add(Review.builder().name("BeRyong").score(1).description("Bad").build());
-
-        given(reviewRepository.findAllByRestaurantId(1004L)).willReturn(reviews);
-    }
 
     @Before
     public void setUp() {
@@ -65,9 +50,7 @@ public class RestaurantServiceTest {
 //        menuItemRepository = new MenuItemRepositoryImpl();
 
         MockRestaurantRepository();
-        mockMenuItemRepository();
-        mockReviewRepository();
-        restaurantService = new RestaurantService(restaurantRepository,menuItemRepository,reviewRepository);
+        restaurantService = new RestaurantService(restaurantRepository);
     }
 
     @Test
@@ -82,13 +65,7 @@ public class RestaurantServiceTest {
     public void getRestaurantWithExisted() {
         Restaurant restaurant = restaurantService.getRestaurantById(1004L);
 
-        verify(menuItemRepository).findAllByRestaurantId(eq(1004L));
-        verify(reviewRepository).findAllByRestaurantId(eq(1004L));
-        MenuItem menuItem = restaurant.getMenuItems().get(0);
-        Review review = restaurant.getReviews().get(0);
-
-        assertThat(menuItem.getName(),is("Kimchi"));
-        assertThat(review.getDescription(),is("Bad"));
+        assertThat(restaurant.getId(),is(1004L));
     }
 
     @Test(expected = RestaurantNotFoundException.class)
