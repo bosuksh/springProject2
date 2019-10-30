@@ -1,11 +1,9 @@
 [
   {
-    "id" : 1,
-    "name": "Steak"
+    "name": "Egg"
   },
   {
-    "id": 2,
-    "destroy" : true
+    "name" : "Bread"
   }
 
 ]
