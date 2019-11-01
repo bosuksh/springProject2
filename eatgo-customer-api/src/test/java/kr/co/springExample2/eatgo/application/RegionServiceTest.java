@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.configuration.MockAnnotationProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,15 +39,6 @@ public class RegionServiceTest {
         List<Region> regions = regionService.getRegions();
 
         Region region = regions.get(0);
-        assertThat(region.getName(),is("Seoul"));
-    }
-
-    @Test
-    public void addRegion() {
-
-        Region region = regionService.addRegion("Seoul");
-
-        verify(regionRepository).save(any());
         assertThat(region.getName(),is("Seoul"));
     }
 

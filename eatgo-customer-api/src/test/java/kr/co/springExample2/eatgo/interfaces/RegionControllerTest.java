@@ -44,17 +44,4 @@ public class RegionControllerTest {
                 .andExpect(content().string(containsString("Seoul")));
     }
 
-
-    @Test
-    public void create() throws Exception {
-        Region region = Region.builder().name("Seoul").build();
-        given(regionService.addRegion("Seoul")).willReturn(region);
-        mvc.perform(post("/regions")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\": \"Seoul\"}"))
-                .andExpect(status().isCreated())
-                .andExpect(content().string("{}"));
-
-        verify(regionService).addRegion("Seoul");
-    }
 }

@@ -24,11 +24,5 @@ public class RegionController {
     public List<Region> list() {
         return regionService.getRegions();
     }
-    @PostMapping("/regions")
-    public ResponseEntity<?> create(@RequestBody Region request) throws URISyntaxException {
 
-        Region region = regionService.addRegion(request.getName());
-        String url = "/regions/"+region.getId();
-        return ResponseEntity.created(new URI(url)).body("{}");
-    }
 }
