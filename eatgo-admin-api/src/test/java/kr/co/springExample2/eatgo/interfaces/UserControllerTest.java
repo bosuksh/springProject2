@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.StringContains.containsString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -39,19 +39,21 @@ public class UserControllerTest {
 
     @MockBean
     private UserService userService;
+
     @Before
     public void setUp() {
-        this.mvc = MockMvcBuilders.webAppContextSetup(ctx).addFilter(new CharacterEncodingFilter("UTF-8",true)).build();
+        this.mvc = MockMvcBuilders.webAppContextSetup(ctx).addFilter(new CharacterEncodingFilter("UTF-8", true)).build();
     }
+
     @Test
     public void list() throws Exception {
         List<User> users = new ArrayList<>();
         users.add(
                 User.builder()
-                .name("테스터")
-                .level(1L)
-                .email("test@example.com")
-                .build()
+                        .name("테스터")
+                        .level(1L)
+                        .email("test@example.com")
+                        .build()
         );
 
         given(userService.getUsers()).willReturn(users);
@@ -63,18 +65,42 @@ public class UserControllerTest {
 
     @Test
     public void create() throws Exception {
-        String email= "admin@example.com";
+        String email = "admin@example.com";
         String name = "Administrator";
         User user = User.builder().name(name).email(email).build();
 
         given(userService.addUser(user)).willReturn(user);
         mvc.perform(post("/users")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"email\":\"admin@example.com\",\"name\":\"Administrator\"}"))
-               // .andExpect(header().string("location","/users/1"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"admin@example.com\",\"name\":\"Administrator\"}"))
+                // .andExpect(header().string("location","/users/1"))
                 .andExpect(status().isCreated());
 
         verify(userService).addUser(user);
     }
 
+    @Test
+    public void update() throws Exception {
+
+//        User user = User.builder()
+//                .id(id)
+//                .name(name)
+//                .email(email)
+//                .level(100L)
+//                .build();
+
+//        given(userService.updateUser(id,email,name,level)).willReturn(user);
+        mvc.perform(put("/users/1004")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"admin@example.com\",\"name\":\"Administrator\",\"level\":100}"))
+                // .andExpect(header().string("location","/users/1"))
+                .andExpect(status().isOk());
+        Long id = 1004L;
+        String email = "admin@example.com";
+        String name = "Administrator";
+        Long level = 100L;
+        verify(userService).updateUser(eq(id), eq(email), eq(name), eq(level));
+
+
+    }
 }

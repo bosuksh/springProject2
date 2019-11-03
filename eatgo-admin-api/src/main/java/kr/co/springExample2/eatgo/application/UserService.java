@@ -27,4 +27,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User updateUser(Long id, String email, String name, Long level) {
+        //TODO: restaurantService 예외처리
+        User user = userRepository.findById(id).orElse(null);
+        user.setName(name);
+        user.setEmail(email);
+        user.setLevel(level);
+        userRepository.save(user);
+        return user;
+    }
 }
