@@ -11,3 +11,7 @@ spring:
   profiles: test
   datasource:
     url: jdbc:h2:mem:test
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
