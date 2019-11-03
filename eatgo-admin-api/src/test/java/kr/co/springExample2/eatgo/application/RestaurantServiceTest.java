@@ -29,7 +29,7 @@ public class RestaurantServiceTest {
 
     private void MockRestaurantRepository() {
         List<Restaurant> restaurants = new ArrayList<>();
-        Restaurant restaurant = Restaurant.builder().id(1004L).name("Bob zip").address("Seoul").build();
+        Restaurant restaurant = Restaurant.builder().id(1004L).name("Bob zip").address("Seoul").categoryId(1L).build();
 
         restaurants.add(restaurant);
 

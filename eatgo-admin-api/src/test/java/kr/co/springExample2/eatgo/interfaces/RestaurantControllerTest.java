@@ -40,6 +40,7 @@ public class RestaurantControllerTest {
                 .id(1004L)
                 .name("JOKER House")
                 .address("Seoul")
+                .categoryId(1L)
                 .build();
         restaurants.add(restaurant);
         given(restaurantService.getRestaurants()).willReturn(restaurants);
@@ -92,11 +93,12 @@ public class RestaurantControllerTest {
                 .id(1234L)
                 .name("BeRyong")
                 .address("Seoul")
+                .categoryId(1L)
                 .build();
 
         mvc.perform(post("/restaurants")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\": \"BeRyong\", \"address\":\"Busan\"}"))
+                .content("{\"categoryId\" : 1,\"name\": \"BeRyong\", \"address\":\"Busan\"}"))
                 .andExpect(status().isCreated())
               //  .andExpect(header().string("location","/restaurants/1234"))
                 .andExpect(content().string("{}"));
@@ -109,7 +111,7 @@ public class RestaurantControllerTest {
 
         mvc.perform(post("/restaurants")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\": \"\", \"address\":\"\"}"))
+                .content("{\"categoryId\" : 1,\"name\": \"\", \"address\":\"\"}"))
                 .andExpect(status().isBadRequest());
                // .andExpect(content().string(""));
 
@@ -120,7 +122,7 @@ public class RestaurantControllerTest {
 
         mvc.perform(put("/restaurants/1004")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content("{\"name\" : \"JOKER\", \"address\": \"Busan\"}"))
+                    .content("{\"categoryId\" : 1,\"name\" : \"JOKER\", \"address\": \"Busan\"}"))
                 .andExpect(status().isOk());
         verify(restaurantService).updateRestaurant(1004L,"JOKER", "Busan");
     }
@@ -130,7 +132,7 @@ public class RestaurantControllerTest {
 
         mvc.perform(put("/restaurants/1004")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\" : \"\", \"address\": \"\"}"))
+                .content("{\"categoryId\" : 1,\"name\" : \"\", \"address\": \"\"}"))
                 .andExpect(status().isBadRequest());
 
     }
@@ -140,7 +142,7 @@ public class RestaurantControllerTest {
 
         mvc.perform(put("/restaurants/1004")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\" : \"\", \"address\": \"Seoul\"}"))
+                .content("{\"categoryId\" : 1,\"name\" : \"\", \"address\": \"Seoul\"}"))
                 .andExpect(status().isBadRequest());
 
     }

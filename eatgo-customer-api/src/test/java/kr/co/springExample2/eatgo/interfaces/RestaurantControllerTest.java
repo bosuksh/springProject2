@@ -41,13 +41,14 @@ public class RestaurantControllerTest {
         List<Restaurant> restaurants = new ArrayList<>();
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("JOKER House")
                 .address("Seoul")
                 .build();
         restaurants.add(restaurant);
-        given(restaurantService.getRestaurants("Seoul")).willReturn(restaurants);
+        given(restaurantService.getRestaurants("Seoul",1L)).willReturn(restaurants);
 
-        mvc.perform(get("/restaurants?region=Seoul"))
+        mvc.perform(get("/restaurants?region=Seoul&category=1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(
                         containsString("\"id\":1004")
@@ -65,6 +66,7 @@ public class RestaurantControllerTest {
                 .id(1004L)
                 .name("JOKER House")
                 .address("Seoul")
+                .categoryId(1L)
                 .build();
 
         MenuItem menuItem = MenuItem.builder().name("Kimchi").build();
@@ -73,6 +75,7 @@ public class RestaurantControllerTest {
         restaurant1.setMenuItems(Arrays.asList(menuItem));
         restaurant1.setReviews(Arrays.asList(review));
         given(restaurantService.getRestaurantById(1004L)).willReturn(restaurant1);
+
 
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
