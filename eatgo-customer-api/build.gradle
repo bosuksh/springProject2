@@ -1,3 +1,4 @@
 dependencies {
     compile project(':eatgo-common')
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 }
