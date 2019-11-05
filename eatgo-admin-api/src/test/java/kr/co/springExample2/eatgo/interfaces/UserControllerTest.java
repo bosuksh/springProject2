@@ -100,7 +100,13 @@ public class UserControllerTest {
         String name = "Administrator";
         Long level = 100L;
         verify(userService).updateUser(eq(id), eq(email), eq(name), eq(level));
+    }
 
+    @Test
+    public void deactivate() throws Exception {
+        mvc.perform(delete("/users/1004"))
+                .andExpect(status().isOk());
 
+        verify(userService).deactiveUser(1004L);
     }
 }

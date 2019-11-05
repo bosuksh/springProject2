@@ -41,4 +41,10 @@ public class UserController {
         userService.updateUser(userId,req.getEmail(),req.getName(),req.getLevel());
         return "{}";
     }
+
+    @DeleteMapping("/users/{userId}")
+    public String delete(@PathVariable Long userId) {
+        userService.deactiveUser(userId);
+        return "{}";
+    }
 }
