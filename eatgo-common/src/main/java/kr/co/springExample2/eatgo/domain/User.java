@@ -1,6 +1,7 @@
 package kr.co.springExample2.eatgo.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,5 +47,13 @@ public class User {
 
     public void deactivate() {
        this.level = 0L;
+    }
+
+    @JsonIgnore
+    public String getAccessToken() {
+        if(password == null) {
+            return "";
+        }
+        return password.substring(0,10);
     }
 }

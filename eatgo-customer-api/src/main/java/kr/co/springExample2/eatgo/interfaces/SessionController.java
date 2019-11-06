@@ -23,9 +23,9 @@ public class SessionController {
     public HttpEntity<SessionResponseDTO> create(@RequestBody SessionRequestDTO req) throws URISyntaxException {
 
         String url = "/session";
-        String accessToken= "ACCESSTOKEN";
 
-        userService.authenticate(req.getEmail(),req.getPassword());
+        User user = userService.authenticate(req.getEmail(),req.getPassword());
+        String accessToken = user.getAccessToken();
 
         SessionResponseDTO sessionResponseDto = SessionResponseDTO.builder().accessToken(accessToken).build();
 
