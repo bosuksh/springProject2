@@ -29,7 +29,8 @@ public class SessionController {
         String url = "/session";
 
         User user = userService.authenticate(req.getEmail(),req.getPassword());
-        String accessToken = jwtUtil.createToken(user.getId(),user.getName());
+        String accessToken = jwtUtil.createToken(user.getId(),user.getName(),
+                user.isRestaurantOwner() ? user.getRestaurantId():null);
 //        String accessToken = jwtUtil.createToken(1004L,"John");
         SessionResponseDTO sessionResponseDto = SessionResponseDTO.builder().accessToken(accessToken).build();
 

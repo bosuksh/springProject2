@@ -79,3 +79,9 @@ project(':eatgo-customer-api') {
         compile project(':eatgo-common')
     }
 }
+
+project(':eatgo-login-api') {
+    dependencies {
+        compile project(':eatgo-common')
+    }
+}

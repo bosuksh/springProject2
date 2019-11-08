@@ -1,6 +1,5 @@
 package kr.co.springExample2.eatgo;
 
-import kr.co.springExample2.eatgo.filters.JwtAuthenticationFilter;
 import kr.co.springExample2.eatgo.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
