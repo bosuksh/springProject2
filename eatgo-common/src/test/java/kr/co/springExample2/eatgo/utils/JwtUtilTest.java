@@ -20,9 +20,10 @@ public class JwtUtilTest {
     @Test
     public void createToken() {
 
-        String token = jwtUtil.createToken(1004L,"John", null);
+        String token = jwtUtil.createToken(1004L,"Owner", 369L);
 
         assertThat(token, containsString("."));
+      //  assertThat(token, containsString("....."));
     }
     @Test
     public void getClaims() {

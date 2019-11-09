@@ -85,3 +85,10 @@ project(':eatgo-login-api') {
         compile project(':eatgo-common')
     }
 }
+
+project(':eatgo-restaurant-api') {
+    dependencies {
+        compile project(':eatgo-common')
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+    }
+}
